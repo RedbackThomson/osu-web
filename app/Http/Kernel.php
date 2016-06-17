@@ -36,6 +36,7 @@ class Kernel extends HttpKernel
         'Illuminate\View\Middleware\ShareErrorsFromSession',
         'App\Http\Middleware\VerifyCsrfToken',
         'App\Http\Middleware\AutologinFromLegacyCookie',
+        Middleware\SetLocale::class,
         'App\Http\Middleware\CheckUserBanStatus',
         'App\Http\Middleware\UpdateUserLastvisit',
         'Clockwork\Support\Laravel\ClockworkMiddleware',
