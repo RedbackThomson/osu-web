@@ -21,6 +21,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Models\BanchoStats;
+use App\Models\Incident;
 use App\Models\Score\Osu;
 use Carbon\Carbon;
 
@@ -105,40 +106,21 @@ class StatusController extends Controller
 
     private function getIncidents()
     {
-        return [
-            [
-                'description' => 'tried to swap a hdd, instructions unclear, got dick stuck on server.',
-                'status' => 'resolved', // green
-                'date' => '23-2-2016 10:40:18',
-                'active' => true, // non-active incidents automatically inserts line-through
-                'by' => 'Peppy',
-            ],
-            [
-                'description' => 'aliens are back, they took my cow.',
-                'status' => 'resolved', // yellow
-                'date' => '19-2-2016 20:40:18',
-                'active' => true,
-                'by' => 'Peppy',
-            ],
-            [
-                'description' => 'there are flying monkeys in the server room, already throw bananas through the window.',
-                'status' => 'resolving', // yellow
-                'date' => '15-2-2016 20:40:18',
-                'by' => 'Peppy',
-            ],
-            [
-                'description' => 'downloaded too much hentai, server\'s bandwidth is gone.',
-                'status' => 'unknown', // red
-                'date' => '10-2-2016 14:40:18',
-                'by' => 'Peppy',
-            ],
-            [
-                'description' => 'it\'s raining aliens, oh Jesus y u do dis to me, aliens everywhere.',
-                'status' => 'unknown', // red
-                'date' => '5-2-2016 2:40:18',
-                // no by == automaTed
-            ],
-        ];
+        $outgoingIncidents = [];
+        $serverIncidents = Incident::all();
+
+        $status = ['unknown', 'resolving', 'resolved'];
+        foreach ($serverIncidents as $incident)
+        {
+            $outgoingIncidents[] = [
+                'description' => $incident->description,
+                'status' => $status[$incident->status],
+                'date' => $incident->date,
+                'child' => !$incident->isParent(),
+                'by' => ($incident->hasAuthor() ? $incident->author->username : null),
+            ];
+        }
+        return $outgoingIncidents;
     }
 
     private function getServers()

@@ -21,8 +21,8 @@ el = React.createElement
 class Status.Incident extends React.Component
   propTypes = 
     description: React.PropTypes.string.isRequired
-    active : React.PropTypes.bool.isRequired
     status: React.PropTypes.string.isRequired
+    child: React.PropTypes.boolean.isRequired
     date: React.PropTypes.string.isRequired
     by: React.PropTypes.string.isRequired
 
@@ -30,7 +30,7 @@ class Status.Incident extends React.Component
     super props
 
   render: =>
-    fromNow = moment(@props.date, 'DD-MM-YYYY HH:mm:ss').fromNow()
+    fromNow = moment(@props.date, 'YYYY-MM-DD HH:mm:ss').fromNow()
 
     div 
       className: 'status-incident'
@@ -47,7 +47,6 @@ class Status.Incident extends React.Component
         div 
           className: 'status-incident__desc'
           span 
-            className: 'status-incident__desc--resolved' unless !@props.active
             @props.description
           span
             " #{Lang.get('status_page.recent.incidents.state.' + @props.status)}!"

@@ -117,11 +117,6 @@ class @Status.Page extends React.Component
   render: =>
     status = @state.status
 
-    activeIncidents = false
-    status.incidents.map (incident) =>
-      if incident.active
-        activeIncidents = true
-
     div 
       className: 'osu-layout__row osu-layout__row--page--compact'
       div null,
@@ -135,19 +130,18 @@ class @Status.Page extends React.Component
               Lang.get("status_page.header.title")
             h4 className: 'status-header__desc',
               Lang.get('status_page.header.description')
-        div className: "status-incidents osu-layout__row--page-compact #{(if activeIncidents then '' else 'hidden')}",
+        div className: 'status-incidents osu-layout__row--page-compact',
           h1 className: 'status-incidents__title',
             Lang.get('status_page.incidents.title')
           div null,
             status.incidents.map (incident, id) =>
-              if incident.active
-                el Status.Incident,
-                  key: id
-                  description: incident.description
-                  active: incident.active
-                  status: incident.status
-                  date: incident.date
-                  by: incident.by
+              el Status.Incident,
+                key: id
+                description: incident.description
+                status: incident.status
+                child: incident.child
+                date: incident.date
+                by: incident.by
         el Status.Map,
           servers: @state.status.servers
         div className: 'osu-layout__row--page-compact',
