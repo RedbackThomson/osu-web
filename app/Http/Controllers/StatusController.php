@@ -19,12 +19,31 @@
  */
 namespace App\Http\Controllers;
 
+use DB;
+use App\Models\BanchoStats;
+use App\Models\Score\Osu;
+use Carbon\Carbon;
+
 class StatusController extends Controller
 {
     protected $section = 'status';
 
     public function getMain()
     {
+        //Get the last 12 hours worth of online user data
+        $userStats = BanchoStats::where('date', '>=', Carbon::now()->subHours(12))
+            ->whereRaw('banchostats_id mod 12 = 0')
+            ->limit(13)
+            ->get();
+
+        //Get the last 12 hours worth of score submits, and group by hour
+        $scoreSubmits = Osu::where('date', '>=', Carbon::now()->subHours(12))
+            ->groupBy('hour')
+            ->orderBy('hour', 'ASC')
+            ->limit(13)
+            //Groups by date and hour
+            ->get([DB::raw('DATE_FORMAT(date,\'%y-%m-%d %H:00:00\') as hour'), DB::raw('COUNT(*) as count')]);
+
         $data = [
             'status' => [
                 'incidents' => $this->getIncidents(),
@@ -33,11 +52,11 @@ class StatusController extends Controller
 
                 'online' => [
                     'graphs' => [
-                        'online' => $this->getOnlineUsers(),
-                        'score' => $this->getScoreReports(),
+                        'online' => $this->getOnlineUsers($userStats),
+                        'score' => $this->getScoreReports($scoreSubmits),
                     ],
-                    'current' => $this->getCurrentOnline(),
-                    'score' => $this->getCurrentScore(),
+                    'current' => $this->getCurrentOnline($userStats),
+                    'score' => $this->getCurrentScore($scoreSubmits),
                 ],
 
                 'uptime' => [
@@ -54,52 +73,34 @@ class StatusController extends Controller
         ->with('data', $data);
     }
 
-    private function getCurrentOnline()
+    private function getCurrentOnline($userStats)
     {
-        return 15.953;
+        return ($userStats->isEmpty() ? 0 : $userStats->last()->users_osu);
     }
 
-    private function getCurrentScore()
+    private function getCurrentScore($scoreSubmits)
     {
-        return 92;
+        return ($scoreSubmits->isEmpty() ? 0 : $scoreSubmits->last()->count);
     }
 
-    private function getOnlineUsers()
+    private function getOnlineUsers($userStats)
     {
-        return [
-            0,
-            863,
-            11122,
-            13432,
-            10210,
-            25,
-            12476,
-            18634,
-            1246,
-            23115,
-            3456,
-            11110,
-            15953,
-        ];
+        $onlineCounts = [];
+        foreach ($userStats as $stat) 
+        {
+            $onlineCounts[] = $stat->users_osu;
+        }
+        return $onlineCounts;
     }
 
-    private function getScoreReports()
+    private function getScoreReports($scoreSubmits)
     {
-        return [
-            64,
-            55,
-            20,
-            23,
-            89,
-            25,
-            20,
-            48,
-            32,
-            54,
-            91,
-            85,
-            92,
-        ];
+        $scoreCounts = [];
+        foreach ($scoreSubmits as $score)
+        {
+            $scoreCounts[] = $score->count;
+        }
+        return $scoreCounts;
     }
 
     private function getIncidents()
