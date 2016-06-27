@@ -22,6 +22,7 @@ class Status.Incident extends React.Component
   propTypes = 
     description: React.PropTypes.string.isRequired
     status: React.PropTypes.string.isRequired
+    child: React.PropTypes.bool.isRequired
     date: React.PropTypes.string.isRequired
     by: React.PropTypes.string.isRequired
 

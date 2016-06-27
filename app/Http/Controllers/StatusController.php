@@ -115,6 +115,7 @@ class StatusController extends Controller
             $outgoingIncidents[] = [
                 'description' => $incident->description,
                 'status' => $status[$incident->status],
+                'child' => !$incident->isParent(),
                 'date' => $incident->date,
                 'by' => ($incident->hasAuthor() ? $incident->author->username : null),
             ];

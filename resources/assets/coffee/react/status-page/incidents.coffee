@@ -30,14 +30,15 @@ class Status.Incidents extends React.Component
 
   render: =>
     incidents = @props.incidents.map (incident, id) =>
+      return if incident.child
       ok = false
-      if @state.when == 'today' && moment().isSame(moment(incident.date, 'DD-MM-YYYY'), 'days')
+      if @state.when == 'today' && moment().isSame(moment(incident.date, 'YYYY-MM-DD'), 'days')
         ok = true
-      else if @state.when == 'last_week' && moment(incident.date, 'DD-MM-YYYY').isBetween(moment().subtract(1, 'week'), moment())
+      else if @state.when == 'last_week' && moment(incident.date, 'YYYY-MM-DD').isBetween(moment().subtract(1, 'week'), moment().subtract(1, 'day'))
         ok = true
-      else if @state.when == '2_weeks' && moment(incident.date, 'DD-MM-YYYY').isBetween(moment().subtract(2, 'weeks'), moment().subtract(1, 'week'))
+      else if @state.when == '2_weeks' && moment(incident.date, 'YYYY-MM-DD').isBetween(moment().subtract(2, 'weeks'), moment().subtract(1, 'week'))
         ok = true
-      else if @state.when == '3_weeks' && moment(incident.date, 'DD-MM-YYYY').isBetween(moment().subtract(3, 'weeks'), moment().subtract(2, 'weeks'))
+      else if @state.when == '3_weeks' && moment(incident.date, 'YYYY-MM-DD').isBetween(moment().subtract(3, 'weeks'), moment().subtract(2, 'weeks'))
         ok = true
 
       if ok
@@ -45,6 +46,7 @@ class Status.Incidents extends React.Component
           key: id
           description: incident.description
           status: incident.status
+          child: incident.child
           date: incident.date
           by: incident.by
 

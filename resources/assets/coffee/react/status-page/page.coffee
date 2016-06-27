@@ -135,13 +135,14 @@ class @Status.Page extends React.Component
             Lang.get('status_page.incidents.title')
           div null,
             status.incidents.map (incident, id) =>
-              el Status.Incident,
-                key: id
-                description: incident.description
-                status: incident.status
-                child: incident.child
-                date: incident.date
-                by: incident.by
+              if incident.status != "resolved"
+                el Status.Incident,
+                  key: id
+                  description: incident.description
+                  status: incident.status
+                  child: incident.child
+                  date: incident.date
+                  by: incident.by
         el Status.Map,
           servers: @state.status.servers
         div className: 'osu-layout__row--page-compact',
