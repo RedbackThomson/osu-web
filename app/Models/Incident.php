@@ -36,7 +36,7 @@ class Incident extends Model
 
     public function hasAuthor()
     {
-        return !is_null($this->author_id);
+        return !is_null($this->author);
     }
 
     public function isParent()

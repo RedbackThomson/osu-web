@@ -109,14 +109,13 @@ class StatusController extends Controller
         $outgoingIncidents = [];
         $serverIncidents = Incident::all();
 
-        $status = ['unknown', 'resolving', 'resolved'];
+        $status = ['unknown', 'update', 'resolved'];
         foreach ($serverIncidents as $incident)
         {
             $outgoingIncidents[] = [
                 'description' => $incident->description,
                 'status' => $status[$incident->status],
                 'date' => $incident->date,
-                'child' => !$incident->isParent(),
                 'by' => ($incident->hasAuthor() ? $incident->author->username : null),
             ];
         }

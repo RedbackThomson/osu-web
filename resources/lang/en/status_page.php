@@ -43,7 +43,7 @@ return [
             'title' => 'Recent Incidents',
             'state' => [
                 'resolved' => 'Resolved',
-                'resolving' => 'Resolving',
+                'update' => 'Update',
                 'unknown' => 'Unknown',
             ],
         ],

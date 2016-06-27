@@ -44,7 +44,6 @@ class Status.Incidents extends React.Component
         el Status.Incident,
           key: id
           description: incident.description
-          active: incident.active
           status: incident.status
           date: incident.date
           by: incident.by
