@@ -19,7 +19,7 @@
     @extends("master", [
     'title' => 'osu!',
     'blank' => 'true',
-    'body_additional_classes' => 'osu-layout--body-landing'
+    'body_additional_classes' => 'osu-layout--body-dark'
     ])
 
     @section("content")
@@ -36,10 +36,10 @@
             </div>
             <a href="#" class="landing-logo">
                 <h1 class="landing-logo__header">osu!</h1>
-                <span class="landing-logo__overlay"></span>
-                <span class="landing-logo__glow"></span>
-                <span class="landing-logo__timing"></span>
-                <span class="landing-logo__bounce"></span>
+                <span class="landing-logo__pulse landing-logo__pulse--overlay"></span>
+                <span class="landing-logo__pulse landing-logo__pulse--glow"></span>
+                <span class="landing-logo__pulse landing-logo__pulse--timing"></span>
+                <span class="landing-logo__pulse landing-logo__pulse--bounce"></span>
             </a>
             <div class="landing-nav__section landing-nav__section--right js-nav-avatar">
                 <a href="#" class="landing-nav__link" title="{{ trans("users.anonymous.login_link") }}" data-toggle="modal" data-target="#user-dropdown-modal">{{ trans("users.login._") }}</a>
