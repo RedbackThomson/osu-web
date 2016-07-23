@@ -35,7 +35,6 @@
                 @endforeach
             </div>
             <a href="#" class="landing-logo">
-                <h1 class="landing-logo__header">osu!</h1>
                 <span class="landing-logo__pulse landing-logo__pulse--overlay"></span>
                 <span class="landing-logo__pulse landing-logo__pulse--glow"></span>
                 <span class="landing-logo__pulse landing-logo__pulse--timing"></span>
