@@ -167,5 +167,6 @@ class @LandingUserStats
     @svg.select('.landing-graph__circle').attr 'cx', @xScale(@maxElem.date)
 
   getGraphDimensions: ->
+    @svg = d3.select '.js-landing-graph'
     @width = parseInt(@svg.style('width')) - @margin.left - @margin.right
     @height = parseInt(@svg.style('height')) - @margin.top - @margin.bottom
