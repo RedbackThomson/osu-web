@@ -145,7 +145,7 @@ return [
         'help' => [
             '_' => 'Help & Community',
             'faq' => 'Frequently Asked Questions',
-            'forum' => 'CommunityForums',
+            'forum' => 'Community Forums',
             'livestreams' => 'Live Streams',
             'report' => 'Report an Issue',
         ],
